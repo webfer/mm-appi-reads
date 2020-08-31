@@ -1,10 +1,3 @@
-// module.exports = {
-//     entry: './src/app.js',
-//     output: {
-//         filename: './dist/app.bundle.js'
-//     }
-// }
-
 let webpack = require('webpack');
 let path = require('path');
 let ManifestPlugin = require('webpack-manifest-plugin');
@@ -23,8 +16,7 @@ let config = {
     publicPath: '/',
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.m?(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
@@ -38,8 +30,14 @@ let config = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.(jpe?g|svg|png|gif)$/,
-        use: 'file-loader',
+        test: /\.(jpg|svg|png|gif)$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[path][name].[ext]',
+            publicPath: '/'
+          }
+        }]
       },
     ],
   },
@@ -53,9 +51,9 @@ let config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'My Reads',
+      title: 'App MMES Search Products',
       filename: 'index.html',
-      template: 'src/assets/index.html',
+      template: 'public/index.html',
     }),
     new ManifestPlugin(),
     new webpack.HotModuleReplacementPlugin(),
